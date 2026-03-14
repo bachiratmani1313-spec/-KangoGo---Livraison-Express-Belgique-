@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KangoGo - Livraison Express</title>
+    <title>KangoGo - Livraison Express Belgique</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .type-btn-active { border-color: #facc15 !important; background-color: #fefce8 !important; transform: scale(1.05); }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-900 pb-10">
 
@@ -17,22 +20,19 @@
     <main class="max-w-md mx-auto p-4 space-y-6">
         
         <section class="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
-            <h2 class="font-black text-gray-800 uppercase text-xs mb-4 text-center">Que livrons-nous aujourd'hui ?</h2>
+            <h2 class="font-black text-gray-800 uppercase text-xs mb-4 text-center">Que livrons-nous ?</h2>
             <div class="grid grid-cols-3 gap-2">
-                <button onclick="setType('petit', 0.8)" id="btn-petit" class="type-btn border-2 border-gray-100 rounded-2xl p-3 flex flex-col items-center transition-all">
+                <button onclick="setType('petit', 0.8, this)" class="type-btn border-2 border-gray-100 rounded-2xl p-3 flex flex-col items-center transition-all">
                     <i class="fas fa-shopping-bag text-blue-500 text-xl mb-1"></i>
                     <span class="text-[10px] font-bold uppercase">Petit Sac</span>
-                    <span class="text-[8px] text-gray-400">(Pralines...)</span>
                 </button>
-                <button onclick="setType('moyen', 1)" id="btn-moyen" class="type-btn border-2 border-yellow-400 bg-yellow-50 rounded-2xl p-3 flex flex-col items-center transition-all">
+                <button onclick="setType('moyen', 1, this)" class="type-btn type-btn-active border-2 border-gray-100 rounded-2xl p-3 flex flex-col items-center transition-all">
                     <i class="fas fa-box text-yellow-600 text-xl mb-1"></i>
                     <span class="text-[10px] font-bold uppercase">Carton</span>
-                    <span class="text-[8px] text-gray-400">(Standard)</span>
                 </button>
-                <button onclick="setType('gros', 1.5)" id="btn-gros" class="type-btn border-2 border-gray-100 rounded-2xl p-3 flex flex-col items-center transition-all">
+                <button onclick="setType('gros', 1.5, this)" class="type-btn border-2 border-gray-100 rounded-2xl p-3 flex flex-col items-center transition-all">
                     <i class="fas fa-truck-loading text-red-500 text-xl mb-1"></i>
                     <span class="text-[10px] font-bold uppercase">Volume</span>
-                    <span class="text-[8px] text-gray-400">(Meubles...)</span>
                 </button>
             </div>
         </section>
@@ -40,43 +40,51 @@
         <section class="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
             <div class="space-y-4">
                 <div>
-                    <label class="block text-[10px] font-black text-gray-400 uppercase mb-1 text-center">Zone de départ/arrivée</label>
+                    <label class="block text-[10px] font-black text-gray-400 uppercase mb-1">Zone de livraison</label>
                     <select id="zone" onchange="calculer()" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl font-bold outline-none focus:border-yellow-400">
                         <option value="bruxelles">Bruxelles (19 Communes)</option>
                         <option value="belgique">Toute la Belgique</option>
                     </select>
                 </div>
 
-                <div class="relative">
-                    <label class="block text-[10px] font-black text-gray-400 uppercase mb-1 text-center">Distance (KM)</label>
-                    <input type="number" id="distance" value="5" oninput="calculer()" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl font-black text-xl text-center outline-none focus:border-yellow-400">
+                <div>
+                    <label class="block text-[10px] font-black text-gray-400 uppercase mb-1">Distance (KM)</label>
+                    <input type="number" id="distance" value="5" oninput="calculer()" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl font-black text-xl outline-none focus:border-yellow-400">
                 </div>
 
-                <div class="bg-black rounded-3xl p-6 text-center shadow-2xl">
+                <div class="bg-black rounded-3xl p-5 text-center shadow-2xl">
                     <p class="text-yellow-400 text-[10px] uppercase font-black mb-1 italic">Prix de la course estimé</p>
-                    <span id="resultat" class="text-5xl font-black text-white">20.00 €</span>
+                    <span id="resultat" class="text-4xl font-black text-white">19.00 €</span>
                 </div>
             </div>
         </section>
 
         <section class="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
+            <h2 class="font-black text-gray-800 uppercase text-xs mb-4">Détails & Paiement</h2>
             <div class="space-y-3">
-                <input type="text" id="commune" placeholder="📍 Commune ou adresse précise" class="w-full p-4 bg-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-yellow-400 font-bold">
+                <input type="text" id="commune" placeholder="📍 Adresse ou Commune (ex: 1000 Bruxelles)" class="w-full p-4 bg-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-yellow-400 font-bold">
+                
+                <div class="grid grid-cols-2 gap-2 py-2">
+                    <div class="flex items-center bg-gray-50 p-3 rounded-xl border border-gray-100">
+                        <input type="radio" name="pay" id="payconiq" value="Payconiq" checked class="w-4 h-4 accent-yellow-500">
+                        <label for="payconiq" class="ml-2 text-[10px] font-bold uppercase">Payconiq</label>
+                    </div>
+                    <div class="flex items-center bg-gray-50 p-3 rounded-xl border border-gray-100">
+                        <input type="radio" name="pay" id="virement" value="Lien de paiement" class="w-4 h-4 accent-yellow-500">
+                        <label for="virement" class="ml-2 text-[10px] font-bold uppercase">Lien (Stripe/Bank)</label>
+                    </div>
+                </div>
+
                 <button onclick="envoyerWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-black py-5 rounded-2xl shadow-lg flex justify-center items-center text-lg uppercase transition-all active:scale-95">
                     <i class="fab fa-whatsapp mr-3 text-3xl"></i> Commander
                 </button>
             </div>
         </section>
 
-        <div class="grid grid-cols-2 gap-3 px-2">
-            <div class="bg-blue-50 p-4 rounded-2xl text-center border border-blue-100">
-                <i class="fas fa-hands-helping text-blue-500 mb-1"></i>
-                <p class="text-[9px] font-black uppercase text-blue-700">Aide au chargement incluse</p>
-            </div>
-            <div class="bg-green-50 p-4 rounded-2xl text-center border border-green-100">
-                <i class="fas fa-bolt text-green-600 mb-1"></i>
-                <p class="text-[9px] font-black uppercase text-green-700">Livraison immédiate</p>
-            </div>
+        <div class="p-4 text-[9px] text-gray-400 text-center leading-tight">
+            <p>** CONDITIONS :** Paiement à la commande pour validation. <br> 
+            Suivi en direct via partage de position WhatsApp lors du trajet. <br>
+            KangoGo - Service de transport léger en Renault Kangoo.</p>
         </div>
 
     </main>
@@ -85,16 +93,17 @@
         let multiplicateurTaille = 1;
         let typeColis = "Carton Standard";
 
-        function setType(type, mult) {
+        function setType(type, mult, element) {
             multiplicateurTaille = mult;
-            // Mise à jour visuelle des boutons
-            document.querySelectorAll('.type-btn').forEach(btn => {
-                btn.classList.remove('border-yellow-400', 'bg-yellow-50');
-                btn.classList.add('border-gray-100');
-            });
-            document.getElementById('btn-' + type).classList.add('border-yellow-400', 'bg-yellow-50');
+            // Gérer le style des boutons
+            document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('type-btn-active'));
+            element.classList.add('type-btn-active');
             
-            typeColis = type === 'petit' ? "Petit Sac (Pralines/Plats)" : (type === 'moyen' ? "Carton Standard" : "Gros Volume/Meuble");
+            // Définir le texte du colis
+            if(type === 'petit') typeColis = "Petit Sac (Pralines/Repas)";
+            else if(type === 'moyen') typeColis = "Carton Standard";
+            else typeColis = "Gros Volume (Meuble/Frigo)";
+            
             calculer();
         }
 
@@ -102,28 +111,32 @@
             const dist = parseFloat(document.getElementById('distance').value) || 0;
             const zone = document.getElementById('zone').value;
             
-            let base = zone === "bruxelles" ? 15 : 20; 
-            let kmPrice = zone === "bruxelles" ? 1.20 : 0.95;
+            let base = (zone === "bruxelles") ? 15 : 20; 
+            let kmPrice = (zone === "bruxelles") ? 1.20 : 0.95;
 
             let total = (base + (dist * kmPrice)) * multiplicateurTaille;
             
-            // Pas de livraison en dessous de 12€ même pour un petit sac
+            // Prix minimum de 12€
             if (total < 12) total = 12;
 
             document.getElementById('resultat').innerText = total.toFixed(2) + " €";
         }
 
         function envoyerWhatsApp() {
-            const numTel = "32XXXXXXXXX"; // À REMPLACER PAR LE NUMÉRO DE VOTRE FILS
+            // !!! REMPLACER PAR LE NUMÉRO DE VOTRE FILS ICI !!!
+            const numTel = "324XXXXXXXX"; 
+            
             const lieu = document.getElementById('commune').value;
             const prix = document.getElementById('resultat').innerText;
             const dist = document.getElementById('distance').value;
+            const paiement = document.querySelector('input[name="pay"]:checked').value;
 
-            const msg = `Bonjour KangoGo !%0A%0A📦 TYPE : ${typeColis}%0A📍 LIEU : ${lieu}%0A📏 DISTANCE : ${dist} km%0A💰 PRIX ESTIMÉ : ${prix}%0A%0AEst-ce possible maintenant ?`;
+            const msg = `*COMMANDE KANGOGO*%0A--------------------------%0A📦 *TYPE :* ${typeColis}%0A📍 *LIEU :* ${lieu}%0A📏 *DISTANCE :* ${dist} km%0A💰 *PRIX :* ${prix}%0A💳 *PAIEMENT :* ${paiement}%0A--------------------------%0A_Merci de m'envoyer le lien de paiement pour confirmer la course._`;
             
             window.open(`https://wa.me/${numTel}?text=${msg}`, '_blank');
         }
         
+        // Calcul initial
         calculer();
     </script>
 </body>
