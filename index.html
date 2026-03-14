@@ -3,105 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KangoGo - Livraison Express Belgique</title>
+    <title>KangoGo - Expert Livraison Bruxelles</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .gradient-yellow { background: linear-gradient(135deg, #facc15 0%, #eab308 100%); }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-50 text-gray-900 pb-10">
 
-    <header class="gradient-yellow p-6 shadow-lg rounded-b-3xl text-center">
-        <div class="flex justify-center mb-2">
-            <div class="bg-white p-3 rounded-2xl shadow-inner">
-                <i class="fas fa-box-open text-yellow-600 text-3xl"></i>
-            </div>
+    <header class="bg-yellow-400 p-6 shadow-lg rounded-b-[40px] text-center border-b-4 border-yellow-500">
+        <div class="inline-block bg-black p-3 rounded-2xl mb-2 shadow-xl">
+            <i class="fas fa-shipping-fast text-yellow-400 text-3xl"></i>
         </div>
-        <h1 class="text-3xl font-black tracking-tighter uppercase italic">KangoGo</h1>
-        <p class="text-sm font-bold opacity-80 uppercase tracking-widest">Express Belgique 🇧🇪</p>
+        <h1 class="text-4xl font-black italic tracking-tighter text-black">KANGOGO</h1>
+        <p class="text-xs font-bold uppercase tracking-widest text-black opacity-70">Livraison Express & 19 Communes</p>
     </header>
 
-    <main class="max-w-md mx-auto p-4 -mt-6">
+    <main class="max-w-md mx-auto p-4 space-y-6">
         
-        <section class="bg-white rounded-3xl shadow-xl p-6 mb-6 border border-gray-100">
-            <h2 class="text-lg font-extrabold mb-4 flex items-center">
-                <i class="fas fa-calculator mr-2 text-yellow-500"></i> Estimateur de prix
-            </h2>
-            
+        <section class="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="font-black text-gray-800 uppercase text-sm italic">Simulateur de prix</h2>
+                <span class="bg-yellow-100 text-yellow-700 text-[10px] px-2 py-1 rounded-full font-bold">Tarifs 2024</span>
+            </div>
+
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Distance (en KM)</label>
-                    <input type="number" id="distance" placeholder="Ex: 30" 
-                        class="w-full p-4 bg-gray-50 border-2 border-transparent focus:border-yellow-400 rounded-2xl outline-none transition-all text-lg font-bold">
-                </div>
-                
-                <div class="flex items-center justify-between p-3 bg-red-50 rounded-2xl border border-red-100">
-                    <label for="urgence" class="text-sm font-bold text-red-700">🚀 LIVRAISON URGENTE</label>
-                    <input type="checkbox" id="urgence" class="w-6 h-6 accent-red-600">
+                    <label class="block text-[10px] font-black text-gray-400 uppercase mb-1">Zone de livraison</label>
+                    <select id="zone" onchange="calculer()" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl font-bold outline-none focus:border-yellow-400 transition-all">
+                        <option value="bruxelles">Bruxelles (19 Communes)</option>
+                        <option value="belgique">Reste de la Belgique</option>
+                        <option value="longue">Longue distance (+100km)</option>
+                    </select>
                 </div>
 
-                <div class="bg-gray-900 rounded-2xl p-5 text-center shadow-inner">
-                    <p class="text-gray-400 text-xs uppercase font-bold">Prix estimé</p>
-                    <span id="resultat" class="text-4xl font-black text-yellow-400">0.00 €</span>
+                <div>
+                    <label class="block text-[10px] font-black text-gray-400 uppercase mb-1">Distance approximative (KM)</label>
+                    <div class="relative">
+                        <input type="number" id="distance" value="10" oninput="calculer()" class="w-full p-4 bg-gray-50 border-2 border-gray-100 rounded-2xl font-black text-xl outline-none focus:border-yellow-400">
+                        <span class="absolute right-4 top-4 text-gray-400 font-bold">km</span>
+                    </div>
+                </div>
+
+                <div class="bg-black rounded-2xl p-5 text-center shadow-2xl transform scale-105 transition-transform">
+                    <p class="text-yellow-400 text-[10px] uppercase font-black mb-1">Estimation immédiate</p>
+                    <span id="resultat" class="text-4xl font-black text-white">25.00 €</span>
+                    <p class="text-gray-500 text-[10px] mt-2 italic">*Hors manutention lourde</p>
                 </div>
             </div>
         </section>
 
         <section class="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
-            <h2 class="text-lg font-extrabold mb-4 flex items-center">
-                <i class="fas fa-paper-plane mr-2 text-yellow-500"></i> Réserver maintenant
-            </h2>
+            <h2 class="font-black text-gray-800 uppercase text-sm italic mb-4">Réserver le Kangoo</h2>
             <div class="space-y-3">
-                <input type="text" id="depart" placeholder="📍 Ville de départ" class="w-full p-4 bg-gray-50 rounded-xl border-none outline-none focus:ring-2 focus:ring-yellow-400">
-                <input type="text" id="arrivee" placeholder="🏁 Ville d'arrivée" class="w-full p-4 bg-gray-50 rounded-xl border-none outline-none focus:ring-2 focus:ring-yellow-400">
-                <textarea id="infos" placeholder="📦 Type de colis (ex: meuble, 5 cartons...)" class="w-full p-4 bg-gray-50 rounded-xl border-none outline-none focus:ring-2 focus:ring-yellow-400 h-24"></textarea>
+                <input type="text" id="commune" placeholder="📍 Commune ou Ville (ex: 1080, Wavre...)" class="w-full p-4 bg-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-yellow-400 font-medium">
+                <textarea id="details" placeholder="📦 Que faut-il livrer ? (ex: 1 canapé, 10 cartons d'archives...)" class="w-full p-4 bg-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-yellow-400 h-24 font-medium"></textarea>
                 
-                <button onclick="envoyerWhatsApp()" class="w-full bg-green-500 hover:bg-green-600 text-white font-black py-5 rounded-2xl shadow-lg transform active:scale-95 transition-all flex justify-center items-center text-lg">
-                    <i class="fab fa-whatsapp mr-3 text-2xl"></i> CONTACTER LE CHAUFFEUR
+                <button onclick="envoyerWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-black py-5 rounded-2xl shadow-lg flex justify-center items-center text-lg uppercase tracking-tight transition-all active:scale-95">
+                    <i class="fab fa-whatsapp mr-3 text-2xl"></i> Commander par WhatsApp
                 </button>
             </div>
         </section>
 
-        <p class="text-center text-gray-400 text-[10px] mt-8 uppercase tracking-widest font-bold">
-            KangoGo - Particuliers & Professionnels
-        </p>
+        <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white p-4 rounded-2xl shadow-md text-center border border-gray-100">
+                <i class="fas fa-couch text-yellow-500 mb-2"></i>
+                <p class="text-[10px] font-black uppercase">Aide au chargement</p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-md text-center border border-gray-100">
+                <i class="fas fa-clock text-yellow-500 mb-2"></i>
+                <p class="text-[10px] font-black uppercase">Service 24h/7j</p>
+            </div>
+        </div>
+
     </main>
 
     <script>
-        const inputDist = document.getElementById('distance');
-        const checkUrgence = document.getElementById('urgence');
-        const displayResult = document.getElementById('resultat');
-
         function calculer() {
-            const dist = parseFloat(inputDist.value) || 0;
-            const fraisFixes = 15; // Prise en charge
-            const prixKm = 0.95;   // Tarif au KM
+            const dist = parseFloat(document.getElementById('distance').value) || 0;
+            const zone = document.getElementById('zone').value;
             
-            let total = fraisFixes + (dist * prixKm);
-            if (checkUrgence.checked) total *= 1.30; // +30% pour l'urgence
+            let base = 20; // Prise en charge de base
+            let kmPrice = 1.00;
 
-            displayResult.innerText = total.toFixed(2) + " €";
+            if (zone === "bruxelles") {
+                base = 25; // Plus cher car trafic dense
+                kmPrice = 1.20;
+            } else if (zone === "longue") {
+                base = 35;
+                kmPrice = 0.85; // Dégressif pour les longues distances
+            }
+
+            let total = base + (dist * kmPrice);
+            document.getElementById('resultat').innerText = total.toFixed(2) + " €";
         }
-
-        inputDist.addEventListener('input', calculer);
-        checkUrgence.addEventListener('change', calculer);
 
         function envoyerWhatsApp() {
-            // REMPLACER PAR LE NUMÉRO DE VOTRE FILS (Format: 32470000000)
+            // METTEZ LE NUMÉRO CI-DESSOUS
             const numTel = "32XXXXXXXXX"; 
             
-            const dep = document.getElementById('depart').value;
-            const arr = document.getElementById('arrivee').value;
-            const info = document.getElementById('infos').value;
-            const prix = displayResult.innerText;
-            const urg = checkUrgence.checked ? "OUI (Urgent)" : "NON";
+            const destination = document.getElementById('commune').value;
+            const detail = document.getElementById('details').value;
+            const prix = document.getElementById('resultat').innerText;
+            const zone = document.getElementById('zone').selectedOptions[0].text;
 
-            const message = `Bonjour KangoGo !%0A%0AJe souhaite une livraison :%0A📍 DE : ${dep}%0A🏁 À : ${arr}%0A📦 INFOS : ${info}%0A🚀 URGENT : ${urg}%0A💰 ESTIMATION : ${prix}%0A%0AMerci de me confirmer votre disponibilité !`;
+            const msg = `Salut KangoGo !%0A%0A*NOUVELLE DEMANDE*%0A📍 Zone : ${zone}%0A📍 Lieu : ${destination}%0A📦 Colis : ${detail}%0A💰 Estimation : ${prix}%0A%0AMerci de me recontacter pour confirmer !`;
             
-            window.open(`https://wa.me/${numTel}?text=${message}`, '_blank');
+            window.open(`https://wa.me/${numTel}?text=${msg}`, '_blank');
         }
+        
+        // Initialiser le calcul au chargement
+        calculer();
     </script>
 </body>
 </html>
