@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KangoGo - Livraison Express Belgique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .gradient-yellow { background: linear-gradient(135deg, #facc15 0%, #eab308 100%); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <header class="gradient-yellow p-6 shadow-lg rounded-b-3xl text-center">
+        <div class="flex justify-center mb-2">
+            <div class="bg-white p-3 rounded-2xl shadow-inner">
+                <i class="fas fa-box-open text-yellow-600 text-3xl"></i>
+            </div>
+        </div>
+        <h1 class="text-3xl font-black tracking-tighter uppercase italic">KangoGo</h1>
+        <p class="text-sm font-bold opacity-80 uppercase tracking-widest">Express Belgique 🇧🇪</p>
+    </header>
+
+    <main class="max-w-md mx-auto p-4 -mt-6">
+        
+        <section class="bg-white rounded-3xl shadow-xl p-6 mb-6 border border-gray-100">
+            <h2 class="text-lg font-extrabold mb-4 flex items-center">
+                <i class="fas fa-calculator mr-2 text-yellow-500"></i> Estimateur de prix
+            </h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Distance (en KM)</label>
+                    <input type="number" id="distance" placeholder="Ex: 30" 
+                        class="w-full p-4 bg-gray-50 border-2 border-transparent focus:border-yellow-400 rounded-2xl outline-none transition-all text-lg font-bold">
+                </div>
+                
+                <div class="flex items-center justify-between p-3 bg-red-50 rounded-2xl border border-red-100">
+                    <label for="urgence" class="text-sm font-bold text-red-700">🚀 LIVRAISON URGENTE</label>
+                    <input type="checkbox" id="urgence" class="w-6 h-6 accent-red-600">
+                </div>
+
+                <div class="bg-gray-900 rounded-2xl p-5 text-center shadow-inner">
+                    <p class="text-gray-400 text-xs uppercase font-bold">Prix estimé</p>
+                    <span id="resultat" class="text-4xl font-black text-yellow-400">0.00 €</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
+            <h2 class="text-lg font-extrabold mb-4 flex items-center">
+                <i class="fas fa-paper-plane mr-2 text-yellow-500"></i> Réserver maintenant
+            </h2>
+            <div class="space-y-3">
+                <input type="text" id="depart" placeholder="📍 Ville de départ" class="w-full p-4 bg-gray-50 rounded-xl border-none outline-none focus:ring-2 focus:ring-yellow-400">
+                <input type="text" id="arrivee" placeholder="🏁 Ville d'arrivée" class="w-full p-4 bg-gray-50 rounded-xl border-none outline-none focus:ring-2 focus:ring-yellow-400">
+                <textarea id="infos" placeholder="📦 Type de colis (ex: meuble, 5 cartons...)" class="w-full p-4 bg-gray-50 rounded-xl border-none outline-none focus:ring-2 focus:ring-yellow-400 h-24"></textarea>
+                
+                <button onclick="envoyerWhatsApp()" class="w-full bg-green-500 hover:bg-green-600 text-white font-black py-5 rounded-2xl shadow-lg transform active:scale-95 transition-all flex justify-center items-center text-lg">
+                    <i class="fab fa-whatsapp mr-3 text-2xl"></i> CONTACTER LE CHAUFFEUR
+                </button>
+            </div>
+        </section>
+
+        <p class="text-center text-gray-400 text-[10px] mt-8 uppercase tracking-widest font-bold">
+            KangoGo - Particuliers & Professionnels
+        </p>
+    </main>
+
+    <script>
+        const inputDist = document.getElementById('distance');
+        const checkUrgence = document.getElementById('urgence');
+        const displayResult = document.getElementById('resultat');
+
+        function calculer() {
+            const dist = parseFloat(inputDist.value) || 0;
+            const fraisFixes = 15; // Prise en charge
+            const prixKm = 0.95;   // Tarif au KM
+            
+            let total = fraisFixes + (dist * prixKm);
+            if (checkUrgence.checked) total *= 1.30; // +30% pour l'urgence
+
+            displayResult.innerText = total.toFixed(2) + " €";
+        }
+
+        inputDist.addEventListener('input', calculer);
+        checkUrgence.addEventListener('change', calculer);
+
+        function envoyerWhatsApp() {
+            // REMPLACER PAR LE NUMÉRO DE VOTRE FILS (Format: 32470000000)
+            const numTel = "32XXXXXXXXX"; 
+            
+            const dep = document.getElementById('depart').value;
+            const arr = document.getElementById('arrivee').value;
+            const info = document.getElementById('infos').value;
+            const prix = displayResult.innerText;
+            const urg = checkUrgence.checked ? "OUI (Urgent)" : "NON";
+
+            const message = `Bonjour KangoGo !%0A%0AJe souhaite une livraison :%0A📍 DE : ${dep}%0A🏁 À : ${arr}%0A📦 INFOS : ${info}%0A🚀 URGENT : ${urg}%0A💰 ESTIMATION : ${prix}%0A%0AMerci de me confirmer votre disponibilité !`;
+            
+            window.open(`https://wa.me/${numTel}?text=${message}`, '_blank');
+        }
+    </script>
+</body>
+</html>
